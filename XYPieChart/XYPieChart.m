@@ -146,7 +146,7 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
         
         _animationSpeed = 0.5;
         _startPieAngle = M_PI_2*3;
-        _selectedSliceStroke = 3.0;
+        _selectedSliceStroke = 1.0;
         
         self.pieRadius = MIN(frame.size.width/2, frame.size.height/2) - 10;
         self.pieCenter = CGPointMake(frame.size.width/2, frame.size.height/2);
@@ -186,7 +186,7 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
         
         _animationSpeed = 0.5;
         _startPieAngle = M_PI_2*3;
-        _selectedSliceStroke = 3.0;
+        _selectedSliceStroke = 1.0;
         
         CGRect bounds = [[self layer] bounds];
         self.pieRadius = MIN(bounds.size.width/2, bounds.size.height/2) - 10;
@@ -493,15 +493,16 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
         SliceLayer *pieLayer = (SliceLayer *)obj;
         CGPathRef path = [pieLayer path];
         
+        [pieLayer setLineWidth:_selectedSliceStroke];
+        [pieLayer setStrokeColor:[UIColor whiteColor].CGColor];
+        [pieLayer setLineJoin:kCALineJoinBevel];
+        
         if (CGPathContainsPoint(path, &transform, point, 0)) {
-            [pieLayer setLineWidth:_selectedSliceStroke];
-            [pieLayer setStrokeColor:[UIColor whiteColor].CGColor];
-            [pieLayer setLineJoin:kCALineJoinBevel];
             [pieLayer setZPosition:MAXFLOAT];
             selectedIndex = idx;
         } else {
             [pieLayer setZPosition:kDefaultSliceZOrder];
-            [pieLayer setLineWidth:0.0];
+            //[pieLayer setLineWidth:0.0];
         }
     }];
     return selectedIndex;
@@ -535,7 +536,7 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
     
     for (SliceLayer *pieLayer in pieLayers) {
         [pieLayer setZPosition:kDefaultSliceZOrder];
-        [pieLayer setLineWidth:0.0];
+        //[pieLayer setLineWidth:0.0];
     }
 }
 
